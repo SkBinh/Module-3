@@ -1,0 +1,70 @@
+use management;
+
+CREATE TABLE DonViDatHang (  
+    MaDV INT AUTO_INCREMENT PRIMARY KEY,  
+    TenDV VARCHAR(255) NOT NULL,  
+    DiaChi VARCHAR(255),  
+    DienThoai VARCHAR(15)  
+);  
+
+CREATE TABLE DonViKhachHang (  
+    MaDV INT AUTO_INCREMENT PRIMARY KEY,  
+    TenDV VARCHAR(255) NOT NULL,  
+    DiaChi VARCHAR(255)  
+);  
+
+CREATE TABLE HangHoa (  
+    MaHang INT AUTO_INCREMENT PRIMARY KEY,  
+    TenHang VARCHAR(255) NOT NULL,  
+    DonViTinh VARCHAR(50),  
+    MoTa TEXT  
+);  
+
+CREATE TABLE NguoiDat (  
+    MaND INT AUTO_INCREMENT PRIMARY KEY,  
+    HoTenND VARCHAR(255) NOT NULL,  
+    MaDV INT,  
+    FOREIGN KEY (MaDV) REFERENCES DonViDatHang(MaDV)  
+);  
+
+CREATE TABLE NoiGiao (  
+    MaDGG INT AUTO_INCREMENT PRIMARY KEY,  
+    TenNoiGiao VARCHAR(255)  
+);  
+
+CREATE TABLE NguoiNhan (  
+    MaNN INT AUTO_INCREMENT PRIMARY KEY,  
+    HoTenNN VARCHAR(255) NOT NULL,  
+    MaDGG INT,  
+    FOREIGN KEY (MaDGG) REFERENCES NoiGiao(MaDGG)  
+);  
+
+CREATE TABLE NguoiGiao (  
+    MaNG INT AUTO_INCREMENT PRIMARY KEY,  
+    HoTenNG VARCHAR(255) NOT NULL  
+);  
+
+CREATE TABLE DonDatHang (  
+    SoDonHang INT AUTO_INCREMENT PRIMARY KEY,  
+    NgayDat DATE NOT NULL,  
+    MaND INT,  
+    MaDVKH INT,  
+    FOREIGN KEY (MaND) REFERENCES NguoiDat(MaND),  
+    FOREIGN KEY (MaDVKH) REFERENCES DonViKhachHang(MaDV)  
+);  
+
+CREATE TABLE PhieuGiaoHang (  
+    SoPhieuGiao INT AUTO_INCREMENT PRIMARY KEY,  
+    NgayGiao DATE NOT NULL,  
+    SoDonHang INT,  
+    MaHang INT,  
+    SoLuong INT NOT NULL,  
+    DonGia DECIMAL(10, 2),  
+    ThanhTien DECIMAL(10, 2),  
+    MaNN INT,  
+    MaNG INT,  
+    FOREIGN KEY (SoDonHang) REFERENCES DonDatHang(SoDonHang),  
+    FOREIGN KEY (MaHang) REFERENCES HangHoa(MaHang),  
+    FOREIGN KEY (MaNN) REFERENCES NguoiNhan(MaNN),  
+    FOREIGN KEY (MaNG) REFERENCES NguoiGiao(MaNG)  
+);
